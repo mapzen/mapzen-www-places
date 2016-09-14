@@ -12,7 +12,7 @@ import werkzeug
 import werkzeug.security
 from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.datastructures import Headers
-from flask.ext.cors import cross_origin
+# from flask.ext.cors import cross_origin
 
 # helpful for figuring out headers aren't being set...
 # logging.getLogger('flask_cors').level = logging.DEBUG
