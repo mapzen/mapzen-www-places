@@ -26,6 +26,12 @@ then
     exit 0
 fi
 
+# this is super annoying - if there is a better way I don't know
+# what it is... (20160914/thisisaaronland)
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
 mkdir ${DB}
 chmod 700 ${DB}
 chown root ${DB}

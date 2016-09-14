@@ -9,12 +9,12 @@ PARENT=`dirname $WHOAMI`
 PROJECT=`dirname $PARENT`
 PROJECT_NAME=`basename ${PROJECT}`
 
-FLASK_CONFIG="${PROJECT}/config/${PROJECT_NAME}-flask.cfg"
-GUNICORN_CONFIG="${PROJECT}/config/${PROJECT_NAME}-gunicorn.cfg"
-INITD_SCRIPT="${PROJECT}/init.d/${PROJECT_NAME}.sh.cfg"
-
 # echo "project ${PROJECT}"
 # echo "project name ${PROJECT_NAME}"
+
+FLASK_CONFIG="${PROJECT}/config/${PROJECT_NAME}-flask.cfg"
+GUNICORN_CONFIG="${PROJECT}/config/${PROJECT_NAME}-gunicorn.cfg"
+INITD_SCRIPT="${PROJECT}/init.d/${PROJECT_NAME}.sh"
 
 if [ ! -f ${FLASK_CONFIG} ]
 then

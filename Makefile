@@ -1,3 +1,11 @@
+setup-local:
+	ubuntu/setup-dependencies.sh
+	ubuntu/setup-certified.sh
+	ubuntu/setup-certified-ca.sh
+	ubuntu/setup-certified-certs.sh
+	ubuntu/setup-gunicorn.sh
+	ubuntu/setup-nginx.sh
+
 mapzen: styleguide tangram refill yesnofix
 
 yesnofix:
