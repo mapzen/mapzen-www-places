@@ -19,6 +19,9 @@ INITD_SCRIPT="${PROJECT}/init.d/${PROJECT_NAME}.sh"
 if [ ! -f ${FLASK_CONFIG} ]
 then
     cp ${FLASK_CONFIG}.example ${FLASK_CONFIG}
+
+    ${PERL} -p -i -e "s!YOUR-PLACES-SEARCH-HOST-GOES-HERE!localhost!" ${GUNICORN_CONFIG}
+    ${PERL} -p -i -e "s!YOUR-PLACES-SEARCH-PORT-GOES-HERE!9200!" ${GUNICORN_CONFIG}
 fi
 
 if [ ! -f ${GUNICORN_CONFIG} ]

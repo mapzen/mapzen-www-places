@@ -5,8 +5,8 @@ import os
 import multiprocessing
 import ConfigParser
 
-places_port = 'YOUR-PLACES-PORT-GOES-HERE'
-places_root = 'YOUR-PLACES-WWW-GOES-HERE'
+places_port = 'YOUR-PLACES-WWW-PORT-GOES-HERE'
+places_root = 'YOUR-PLACES-WWW-ROOT-GOES-HERE'
 places_cfg = 'YOUR-PLACES-FLASK-CONFIG-GOES-HERE'
 
 places_cfg = os.path.join(places_root, places_cfg)
