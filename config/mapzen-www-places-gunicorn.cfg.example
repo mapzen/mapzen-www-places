@@ -5,6 +5,7 @@ import os
 import multiprocessing
 import ConfigParser
 
+places_host = 'YOUR-PLACES-WWW-HOST-GOES-HERE'
 places_port = 'YOUR-PLACES-WWW-PORT-GOES-HERE'
 places_root = 'YOUR-PLACES-WWW-ROOT-GOES-HERE'
 places_cfg = 'YOUR-PLACES-FLASK-CONFIG-GOES-HERE'
@@ -15,13 +16,15 @@ if not os.path.exists(places_cfg):
    raise Exception, "missing places config file (%s)" % places_cfg
 
 workers = multiprocessing.cpu_count() * 2 + 1
-worker_class = "egg:gunicorn#gevent"
+
+# worker_class = "egg:gunicorn#gevent"	# older versions of gunicorn use this
+worker_class = "gevent"			# newer versions of gunicorn use this
 
 cfg = ConfigParser.ConfigParser()
 cfg.read(places_cfg)
 
-os.environ['WOF_SEARCH_HOST'] = cfg.get('search', 'host')
-os.environ['WOF_SEARCH_PORT'] = cfg.get('search', 'port')
+os.environ['PLACES_SEARCH_HOST'] = cfg.get('search', 'host')
+os.environ['PLACES_SEARCH_PORT'] = cfg.get('search', 'port')
 
-bind = '127.0.0.1:%s' % places_port
+bind = '%s:%s' % (places_host, places_port)
 chdir = places_root
