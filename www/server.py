@@ -14,10 +14,71 @@ from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.datastructures import Headers
 # from flask.ext.cors import cross_origin
 
+import requests
+import json
+
 # helpful for figuring out headers aren't being set...
 # logging.getLogger('flask_cors').level = logging.DEBUG
 
 # http://flask.pocoo.org/snippets/35/
+
+class ES:
+
+    def __init__ (self, **kwargs):
+
+        self.host = kwargs.get('host', 'localhost')
+        self.port = kwargs.get('port', 9200)
+        self.index = kwargs.get('index', None)
+
+        self.per_page = kwargs.get('per_page', 100)
+        self.page = 1
+        
+    def query(**kwargs) :
+
+        path = kwargs.get('path', '_search')
+        body = kwargs.get('body', {})
+        query = kwargs.get('query', {})
+
+        if self.index:
+            url = "http://%s:%s/%s/%s" % (self.host, self.port, self.index, path)
+        else:
+            url = "http://%s:%s/%s" % (self.host, self.port, path)
+            
+        if len(query.keys()):
+            q = urllib.urlencode(query)
+            url = url + "?" + q
+            
+        body = json.dumps(body)
+
+        rsp = requests.post(url, data=body)
+        return json.loads(rsp.content)
+
+    def paginate(self, rsp, **kwargs):
+
+        per_page = kwargs.get('per_page', self.per_page)
+        page = kwargs.get('page', self.page)
+
+        # TO DO - check that per_page doesn't exceed max here
+        
+        hits = rsp['hits']
+        total = hits['total']
+
+        docs = hits['hits']
+        count = len(docs)
+
+        pages = float(total) / float(per_page)
+        pages = math.ceil(pages)
+        pages = int(pages)
+
+        pagination = {
+            'total': total,
+            'count': count,
+            'per_page': per_page,
+            'page': page,
+            'pages': pages
+        }
+
+        return pagination
 
 class ReverseProxied(object):
     '''Wrap the application in this middleware and configure the 
@@ -65,6 +126,9 @@ def init():
     search_port = os.environ.get('PLACES_SEARCH_PORT', None)
     search_index = os.environ.get('PLACES_SEARCH_INDEX', 'whosonfirst')
 
+    es = ES(host=self.host, port=self.port, index=self.index)
+    flask.g.es = es
+    
     pass
 
 @app.template_filter()
@@ -127,3 +191,17 @@ def index():
 
     return flask.render_template('index.html')
 
+@app.route("/id/<int:id>", methods=["GET"])
+@app.route("/id/<int:id>/", methods=["GET"])
+def place_id(id):
+
+    query = {
+        'ids': {
+            'values': [id]
+        }
+    }
+    
+    body = {
+        'query': query
+    }
+    
