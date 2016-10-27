@@ -24,6 +24,8 @@ import json
 
 class ES:
 
+    # see also : https://github.com/mapzen/mapzen-www-places/issues/5
+
     def __init__ (self, **kwargs):
 
         self.host = kwargs.get('host', 'localhost')
