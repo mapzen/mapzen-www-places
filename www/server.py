@@ -33,12 +33,17 @@ class ES:
         self.index = kwargs.get('index', None)
 
         self.per_page = kwargs.get('per_page', 100)
+        self.per_page_max = kwargs.get('per_page_max', 500)
+
         self.page = 1
         
     def __str__ (self):
         return "%s:%s (%s)" % (self.host, self.port, self.index)
 
     def query(self, **kwargs) :
+
+        # TO DO: ensure pagination limits
+        # https://github.com/mapzen/mapzen-www-places/issues/8
 
         path = kwargs.get('path', '_search')
         body = kwargs.get('body', {})
@@ -74,10 +79,12 @@ class ES:
     def paginate(self, rsp, **kwargs):
 
         per_page = kwargs.get('per_page', self.per_page)
+
+        if per_page > self.per_page_max:
+            per_page = self.per_page_max
+
         page = kwargs.get('page', self.page)
 
-        # TO DO - check that per_page doesn't exceed max here
-        
         hits = rsp['hits']
         total = hits['total']
 
