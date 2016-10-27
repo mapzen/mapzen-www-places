@@ -31,7 +31,7 @@ class ReverseProxied(object):
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Scheme $scheme;
-        proxy_set_header X-Script-Name /myprefix;
+        proxy_set_header X-Proxy-Path /myprefix;
         }
 
     :param app: the WSGI application
@@ -40,7 +40,7 @@ class ReverseProxied(object):
         self.app = app
 
     def __call__(self, environ, start_response):
-        script_name = environ.get('HTTP_X_SCRIPT_NAME', '')
+        script_name = environ.get('HTTP_X_PROXY_PATH', '')
         if script_name:
             environ['SCRIPT_NAME'] = script_name
             path_info = environ['PATH_INFO']
