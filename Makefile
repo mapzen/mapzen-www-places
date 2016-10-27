@@ -6,7 +6,10 @@ setup-local:
 	ubuntu/setup-gunicorn.sh
 	ubuntu/setup-nginx.sh
 
-mapzen: styleguide tangram refill yesnofix
+mapzen: styleguide tangram refill yesnofix logo
+
+logo:
+	curl -s -o www/static/images/mapzen-logo-square-bw-lit.png https://mapzen.com/resources/logos/mapzen-logo-square-bw-lit.png
 
 yesnofix:
 	curl -s -o www/static/javascript/mapzen.whosonfirst.yesnofix.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst-yesnofix/master/src/mapzen.whosonfirst.yesnofix.js

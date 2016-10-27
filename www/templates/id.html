@@ -6,7 +6,7 @@
 <meta property="og:site_name" content="Mapzen Places" />
 <meta property="og:title" content="{{ place.properties.get("wof:name") |e }} ({{ place.properties.get("wof:id") |e }})" />
 <meta property="og:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }} {% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %} {% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
-<meta property="og:image" content="https://mapzen.com/common/styleguide/images/favicon.ico" />
+<meta property="og:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
 
 <meta property="twitter:card" value="summary" />
 <meta property="twitter:site" content="@mapzen" />
@@ -14,7 +14,7 @@
 <meta property="twitter:url" content="{{ request.base_url |e }}" />
 <meta property="twitter:title" content="{{ place.properties.get("wof:name") |e }} ({{ place.properties.get("wof:id") |e }})" />
 <meta property="twitter:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }}{% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %}{% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
-<meta property="twitter:image" content="https://mapzen.com/common/styleguide/images/favicon.ico" />
+<meta property="twitter:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
 {% endblock %}
 
 {% block content %}
