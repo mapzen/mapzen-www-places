@@ -33,7 +33,10 @@ class ES:
         self.per_page = kwargs.get('per_page', 100)
         self.page = 1
         
-    def query(**kwargs) :
+    def __str__ (self):
+        return "%s:%s (%s)" % (self.host, self.port, self.index)
+
+    def query(self, **kwargs) :
 
         path = kwargs.get('path', '_search')
         body = kwargs.get('body', {})
@@ -43,7 +46,7 @@ class ES:
             url = "http://%s:%s/%s/%s" % (self.host, self.port, self.index, path)
         else:
             url = "http://%s:%s/%s" % (self.host, self.port, path)
-            
+
         if len(query.keys()):
             q = urllib.urlencode(query)
             url = url + "?" + q
@@ -52,6 +55,19 @@ class ES:
 
         rsp = requests.post(url, data=body)
         return json.loads(rsp.content)
+
+    def single(self, rsp):
+
+        count = len(rsp['hits']['hits'])
+
+        if count == 0:
+            return None
+
+        if count > 1:
+            logging.warning("invoking single on a result set with %s results" % count)
+            return None
+
+        return rsp['hits']['hits'][0]
 
     def paginate(self, rsp, **kwargs):
 
@@ -126,7 +142,7 @@ def init():
     search_port = os.environ.get('PLACES_SEARCH_PORT', None)
     search_index = os.environ.get('PLACES_SEARCH_INDEX', 'whosonfirst')
 
-    es = ES(host=self.host, port=self.port, index=self.index)
+    es = ES(host=search_host, port=search_port, index=search_index)
     flask.g.es = es
     
     pass
@@ -205,3 +221,10 @@ def place_id(id):
         'query': query
     }
     
+    rsp = flask.g.es.query(body=body)
+    place = flask.g.es.single(rsp)
+
+    if not place:
+        flask.abort(400)
+
+    return flask.render_template('id.html', place=place['_source'])
