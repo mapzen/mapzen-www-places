@@ -25,6 +25,7 @@ cfg.read(places_cfg)
 
 os.environ['PLACES_SEARCH_HOST'] = cfg.get('search', 'host')
 os.environ['PLACES_SEARCH_PORT'] = cfg.get('search', 'port')
+os.environ['PLACES_SEARCH_INDEX'] = cfg.get('search', 'index')
 
 bind = '%s:%s' % (places_host, places_port)
 chdir = places_root

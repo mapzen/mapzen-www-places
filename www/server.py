@@ -52,7 +52,7 @@ class ReverseProxied(object):
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
 
-app = flask.Flask('SPELUNKER')
+app = flask.Flask('MAPZEN_PLACES')
 app.wsgi_app = ProxyFix(app.wsgi_app)
 app.wsgi_app = ReverseProxied(app.wsgi_app)
 
@@ -60,6 +60,10 @@ logging.basicConfig(level=logging.INFO)
 
 @app.before_request
 def init():
+
+    search_host = os.environ.get('PLACES_SEARCH_HOST', None)
+    search_port = os.environ.get('PLACES_SEARCH_PORT', None)
+    search_index = os.environ.get('PLACES_SEARCH_INDEX', 'whosonfirst')
 
     pass
 
@@ -111,7 +115,7 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def server_error(e):
-    return flask.render_template('500.html'), 404
+    return flask.render_template('500.html'), 500
 
 @app.route("/500", methods=["GET"])
 @app.route("/500/", methods=["GET"])
