@@ -1,6 +1,22 @@
 {% extends "base.html" %}
-{% block title %}{{ place['wof:name'] | e}}{% endblock %}
+{% block title %}{{ place.properties.get('wof:name') | e}}{% endblock %}
+
+{% block head %}
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Mapzen Places" />
+<meta property="og:title" content="{{ place.properties.get("wof:name") |e }} ({{ place.properties.get("wof:id") |e }})" />
+<meta property="og:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }} {% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %} {% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
+<meta property="og:image" content="https://mapzen.com/common/styleguide/images/favicon.ico" />
+
+<meta property="twitter:card" value="summary" />
+<meta property="twitter:site" content="@mapzen" />
+<meta property="twitter:creator" content="@mapzen" />
+<meta property="twitter:url" content="{{ request.base_url |e }}" />
+<meta property="twitter:title" content="{{ place.properties.get("wof:name") |e }} ({{ place.properties.get("wof:id") |e }})" />
+<meta property="twitter:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }}{% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %}{% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
+<meta property="twitter:image" content="https://mapzen.com/common/styleguide/images/favicon.ico" />
+{% endblock %}
 
 {% block content %}
-<h1>{{ place['wof:name'] | e}} <small>It's a {{ place['wof:placetype'] | e }}</small></h1>
+<h1>{{ place.properties.get('wof:name') | e}} <small>It's a {{ place.properties.get('wof:placetype') | e }}</small></h1>
 {% endblock %}

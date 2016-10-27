@@ -216,6 +216,12 @@ def index():
 
     return flask.render_template('index.html')
 
+@app.route("/id", methods=["GET"])
+@app.route("/id/", methods=["GET"])
+def null_id():
+    location = flask.url_for('index')
+    return flask.redirect(location, code=303)
+
 @app.route("/id/<int:id>", methods=["GET"])
 @app.route("/id/<int:id>/", methods=["GET"])
 def place_id(id):
@@ -231,9 +237,19 @@ def place_id(id):
     }
     
     rsp = flask.g.es.query(body=body)
-    place = flask.g.es.single(rsp)
+    doc = flask.g.es.single(rsp)
 
-    if not place:
+    if not doc:
         flask.abort(400)
 
-    return flask.render_template('id.html', place=place['_source'])
+    place = doc2geojson(doc)
+
+    return flask.render_template('id.html', place=place)
+
+def doc2geojson(doc):
+
+    return {
+        'type': 'Feature',
+        'properties': doc['_source'],
+        'geoemtry': {}		# see that... we'll figure it out (20161027/thisisaaronland)
+    }
