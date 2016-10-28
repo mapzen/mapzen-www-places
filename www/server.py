@@ -14,6 +14,9 @@ from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.datastructures import Headers
 # from flask.ext.cors import cross_origin
 
+import time
+import random
+
 import requests
 import json
 
@@ -267,6 +270,46 @@ def place_id(id):
     place = doc2geojson(doc)
 
     return flask.render_template('id.html', place=place)
+
+@app.route("/random", methods=["GET"])
+@app.route("/random/", methods=["GET"])
+def random_place():
+
+    now = time.time()
+    now = int(now)
+
+    seed = random.randint(0, now)
+
+    es_query = {
+        'function_score': {
+            'query': {
+                'match_all' : { }
+            },
+            'functions': [
+                { 'random_score': { 'seed': seed } }
+            ]
+        }
+    }
+
+    body = {
+        'query': es_query
+    }
+    
+    # https://github.com/mapzen/mapzen-www-places/issues/8
+
+    query = {
+        # 'per_page': 1
+        'size': 1
+    }
+
+    rsp = flask.g.es.query(body=body, query=query)
+    doc = flask.g.es.single(rsp)
+
+    if not doc:
+        flask.abort(404)
+
+    location = flask.url_for('place_id', id=doc['_id'])
+    return flask.redirect(location, code=303)
 
 def doc2geojson(doc):
 
