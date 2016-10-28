@@ -15,8 +15,33 @@
 <meta property="twitter:title" content="{{ place.properties.get("wof:name") |e }} ({{ place.properties.get("wof:id") |e }})" />
 <meta property="twitter:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }}{% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %}{% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
 <meta property="twitter:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.js.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.js') }}"></script>
+
 {% endblock %}
 
 {% block content %}
 <h1>{{ place.properties.get('wof:name') | e}} <small>It's a {{ place.properties.get('wof:placetype') | e }}</small></h1>
+
+<div id="map"></div>
+
+<script type="text/javascript">
+
+var map = L.Mapzen.map('map', {
+          center: [ {{ place.properties.get('geom:latitude') | e }}, {{ place.properties.get('geom:longitude') | e }}],
+          zoom: 13,
+          scene: L.Mapzen.BasemapStyles.TronNoLabels
+        });
+
+var bbox = '{{ place.properties.get('geom:bbox') | e }}'.split(',');
+
+var sw = L.latLng(bbox[1], bbox[0]);
+var ne = L.latLng(bbox[3], bbox[2]);
+var bounds = L.latLngBounds(sw, ne);
+
+map.fitBounds(bounds)
+
+</script>
+
 {% endblock %}

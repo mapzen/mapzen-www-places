@@ -6,7 +6,7 @@ setup-local:
 	ubuntu/setup-gunicorn.sh
 	ubuntu/setup-nginx.sh
 
-mapzen: styleguide tangram refill yesnofix logo
+mapzen: styleguide tangram refill yesnofix logo mapzenjs
 
 logo:
 	curl -s -o www/static/images/mapzen-logo-square-bw-lit.png https://mapzen.com/resources/logos/mapzen-logo-square-bw-lit.png
@@ -20,6 +20,10 @@ styleguide:
 tangram:
 	curl -s -o www/static/javascript/tangram.js https://mapzen.com/tangram/tangram.debug.js
 	curl -s -o www/static/javascript/tangram.min.js https://mapzen.com/tangram/tangram.min.js
+
+mapzenjs:
+	curl -s -o www/static/css/mazen.js.css https://mapzen.com/js/mapzen.css
+	curl -s -o www/static/javascript/mapzen.js https://mapzen.com/js/mapzen.min.js
 
 refill:
 	curl -s -o www/static/tangram/refill.yaml https://raw.githubusercontent.com/tangrams/refill-style/gh-pages/refill-style.yaml
