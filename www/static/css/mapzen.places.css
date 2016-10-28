@@ -9,11 +9,11 @@
 }
 
 .leaflet-tile-pane {
-    display:none;
+    display:none;	/* toggled in JS by map.on('tangramloaded', function(e){ ... } */
 }
 
 .leaflet-control-container {
-    display:none;
+    display:none;	/* toggled in JS by map.on('tangramloaded', function(e){ ... } */
 }
 
 #slippymap-crosshairs {
