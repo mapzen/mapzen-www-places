@@ -22,7 +22,7 @@ tangram:
 	curl -s -o www/static/javascript/tangram.min.js https://mapzen.com/tangram/tangram.min.js
 
 mapzenjs:
-	curl -s -o www/static/css/mazen.js.css https://mapzen.com/js/mapzen.css
+	curl -s -o www/static/css/mapzen.js.css https://mapzen.com/js/mapzen.css
 	curl -s -o www/static/javascript/mapzen.js https://mapzen.com/js/mapzen.min.js
 
 refill:
