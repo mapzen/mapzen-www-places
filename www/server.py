@@ -323,6 +323,62 @@ def random_place():
     location = flask.url_for('place_id', id=doc['_id'])
     return flask.redirect(location, code=303)
 
+@app.route("/random/<placetype>", methods=["GET"])
+@app.route("/random/<placetype>/", methods=["GET"])
+def random_placetype(placetype):
+
+    # this doesn't work yet...
+    # https://github.com/mapzen/mapzen-www-places/issues/11
+
+    flask.abort(404)
+
+    """
+    placetype = sanitize_str(placetype)
+
+    if not pt.is_valid_placetype(placetype) and placetype != 'airport':
+        flask.abort(404)
+    """
+
+    query = {
+        'term': {
+            'wof:placetype': placetype
+        }
+    }
+
+    if placetype == 'airport':
+
+        query = {'filtered': {
+            'filter': { 'term': { 'wof:category': 'airport' } },
+            'query': { 'term': { 'wof:placetype': 'campus' } }
+        }}
+
+    now = time.time()
+    now = int(now)
+
+    seed = random.randint(0, now)
+
+    es_query = {
+        'function_score': {
+            'query': query,
+            'functions': [
+                { 'random_score': { 'seed': seed } }
+            ]
+        }
+    }
+    
+    body = {
+        'query': es_query,
+    }
+
+    rsp = flask.g.es.query(body=body, query=query)
+    doc = flask.g.es.single(rsp)
+
+    if not doc:
+        flask.abort(404)
+
+    location = flask.url_for('place_id', id=doc['_id'])
+    return flask.redirect(location, code=303)
+
 def doc2geojson(doc):
 
     return {
