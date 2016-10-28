@@ -211,9 +211,31 @@ def server_error(e):
 def server_error():
     flask.abort(500)
 
+# Sitemaps are actually generated out of band, cloned to an S3
+# bucket and handled by a proxy handler upstream. See also:
+# https://github.com/whosonfirst/whosonfirst-sitemaps
+# (20161027/thisisaaronland)
+
+@app.route('/sitemap.xml', methods=["GET"])
+@app.route('/sitemaps.xml', methods=["GET"])
+def sitemap_xml():
+
+    location = flask.url_for('index')
+    location = os.path.join(location, "sitemaps/index.xml")
+
+    return flask.redirect(location, code=303)
+
+@app.route('/robots.txt')
+def robots_txt():
+
+    headers = Headers()
+    headers.add("Content-type", "text/plain")
+
+    body = flask.render_template('robots.txt')
+    return flask.Response(body, headers=headers)
+
 @app.route("/", methods=["GET"])
 def index():
-
     return flask.render_template('index.html')
 
 @app.route("/id", methods=["GET"])
