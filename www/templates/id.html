@@ -45,8 +45,6 @@ map.fitBounds(bounds)
 
 map.on('tangramloaded', function(e){
 
-	console.log("HELLO");
-
 	var els = document.getElementsByClassName("leaflet-tile-pane");
 	var tiles = els[0];
 	tiles.style.display = "inline";
@@ -56,8 +54,6 @@ map.on('tangramloaded', function(e){
 	controls.style.display = "inline";
 
 	slippymap.crosshairs.init(map);
-
-	console.log("DONE");
 });
 
 </script>
