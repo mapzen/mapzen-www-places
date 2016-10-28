@@ -18,6 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.js.css') }}" />
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/slippymaps.crosshairs.js') }}"></script>
 
 {% endblock %}
 
@@ -41,6 +42,23 @@ var ne = L.latLng(bbox[3], bbox[2]);
 var bounds = L.latLngBounds(sw, ne);
 
 map.fitBounds(bounds)
+
+map.on('tangramloaded', function(e){
+
+	console.log("HELLO");
+
+	var els = document.getElementsByClassName("leaflet-tile-pane");
+	var tiles = els[0];
+	tiles.style.display = "inline";
+
+	var els = document.getElementsByClassName("leaflet-control-container");
+	var controls = els[0];
+	controls.style.display = "inline";
+
+	slippymap.crosshairs.init(map);
+
+	console.log("DONE");
+});
 
 </script>
 

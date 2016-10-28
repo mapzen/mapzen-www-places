@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Mapzen Places{% endblock %}
 
+{% block head %}
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Mapzen Places" />
+<meta property="og:title" content="It's Full of Places" />
+<meta property="og:description" content="" />
+<meta property="og:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
+
+<meta property="twitter:card" value="summary" />
+<meta property="twitter:site" content="@mapzen" />
+<meta property="twitter:creator" content="@mapzen" />
+<meta property="twitter:url" content="{{ request.base_url |e }}" />
+<meta property="twitter:title" content="It's Full of Places" />
+<meta property="twitter:description" content="" />
+<meta property="twitter:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
+{% endblock %}
+
 {% block content %}
 <h1>Mapzen <small>It's Full of Places</small></h1>
 {% endblock %}
