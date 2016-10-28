@@ -45,9 +45,6 @@ class ES:
 
     def query(self, **kwargs) :
 
-        # TO DO: ensure pagination limits
-        # https://github.com/mapzen/mapzen-www-places/issues/8
-
         path = kwargs.get('path', '_search')
         body = kwargs.get('body', {})
         query = kwargs.get('query', {})
@@ -56,6 +53,24 @@ class ES:
             url = "http://%s:%s/%s/%s" % (self.host, self.port, self.index, path)
         else:
             url = "http://%s:%s/%s" % (self.host, self.port, path)
+
+        page = self.page
+        per_page = self.per_page
+
+        if query.get('per_page', None):
+
+            per_page = query['per_page']
+            del(query['per_page'])
+
+            if per_page > self.per_page_max:
+                per_page = self.per_page_max
+
+        if query.get('page', None):
+            page = query['page']
+            del(query['page'])
+
+        query['_from'] = (page - 1) * per_page
+        query['size'] = per_page
 
         if len(query.keys()):
             q = urllib.urlencode(query)
@@ -295,11 +310,8 @@ def random_place():
         'query': es_query
     }
     
-    # https://github.com/mapzen/mapzen-www-places/issues/8
-
     query = {
-        # 'per_page': 1
-        'size': 1
+        'per_page': 1
     }
 
     rsp = flask.g.es.query(body=body, query=query)
