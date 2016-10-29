@@ -1,0 +1,14 @@
+@media (max-width: 400px) {
+
+    body {
+	margin-top: .75em !important;
+    }
+
+    h1 {
+	font-size: 1.75em !important;
+    }
+
+    #map {
+	height: 325px !important;
+    }
+}
