@@ -19,4 +19,20 @@
 
 {% block content %}
 <h1>Mapzen <small>It's Full of Places</small></h1>
+
+<div class="row feature-card">
+  <div class="col-md-6 no_padding-x">
+    <div class="background-image-lg" style="background-image: url({{ url_for('static', filename='images/max-headroom.gif') }});"></div>
+  </div>
+  <div class="col-md-6 hor-pad-left">
+    <h5>What Is This Thing?</h5>
+    <p class="footroom">
+      Mapzen Places is a friendly and permanent webpage for all the places &#8212; <em>countries, localities, venues, you name it!</em> &#8212; in the <a href="https://whosonfirst.mapzen.com/">Who's On First</a> gazetteer.
+    </p>
+    <div class="btn-group">
+      <a class="btn btn-mapzen" href="{{ url_for('random_place') }}">Visit a random place</a>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

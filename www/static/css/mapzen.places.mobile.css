@@ -8,6 +8,10 @@
 	font-size: 1.75em !important;
     }
 
+    h5 {
+	font-size: 1.2em !important;
+    }
+
     #map {
 	height: 325px !important;
     }
