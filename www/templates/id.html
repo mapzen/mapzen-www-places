@@ -16,9 +16,9 @@
 <meta property="twitter:description" content="{{ place.properties.get("wof:name") |e }} is a {{ place.properties.get("wof:placetype") |e }}{% if place.properties.get("edtf:deprecated") %} - that is deprecated{% elif place.properties.get("wof:superseded_by") %} - that has been superseded by WOF ID {{ place.properties.get("wof:superseded_by").0 |e }}{% endif %}{% if place.properties.get("wof:country", "") != "" %} :flag-{{ place.properties.get("wof:country").lower() |e }}:{% endif %}" />
 <meta property="twitter:image" content="{{ url_for('static', filename='images/mapzen-logo-square-bw-lit.png') }}" />
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.js.css') }}" />
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/slippymaps.crosshairs.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.js.css') }}" />
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/slippymaps.crosshairs.js') }}"></script>
 
 {% endblock %}
 
@@ -27,6 +27,13 @@
 
 <div id="map"></div>
 <div id="map-static"></div>
+
+<div id="details">
+
+<p>This place has a stable and permanent identifier. It is: <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}">{{ place.properties.get('wof:id') | e}}</a>.</p>
+
+
+</div>
 
 <script type="text/javascript">
 
@@ -55,6 +62,9 @@ map.on('tangramloaded', function(e){
 	controls.style.display = "inline";
 
 	slippymap.crosshairs.init(map);
+
+	// See the private variables? See also:
+	// https://github.com/mapzen/mapzen.js/issues/284
 
 	var screenshot = map._tangram._layer.scene.screenshot()
 

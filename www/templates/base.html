@@ -12,23 +12,34 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.styleguide.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.places.css') }}" />
-    <link rel="stylesheet" type="text/css" media="print" href="{{ url_for('static', filename='css/mapzen.places.print.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mapzen.places.print.css') }}" />
 
     {% block head %}{% endblock %}
 </head>
 <body data-abs-root-url="{{ url_for('index') }}">
 
-  <div id="nav" class="container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-md-offset-0">
+
+	<div id="header">
 	{% include "inc_header.html" %}    
-  </div>
+	</div>
 
-  <div class="container" id="content">
-    {% block content %}{% endblock %}
-  </div>
+	<div id="content">
+	{% block content %}{% endblock %}
+	</div>
   
-    <div class="container" id="footer">
+	<div id="footer">
 	{% include "inc_footer.html" %}
-    </div>
+	</div>
 
+      </div>
+    </div>
+  </div>
+
+  {% if 0 %}
+  <script src="{{ url_for('static', filename='javascript/mapzen-styleguide.min.js') }}"></script>
+  {% endif %}
 </body>
 </html>

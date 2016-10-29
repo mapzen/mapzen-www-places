@@ -16,6 +16,7 @@ yesnofix:
 
 styleguide:
 	curl -s -o www/static/css/mapzen.styleguide.css https://mapzen.com/common/styleguide/styles/styleguide.css
+	curl -s -o www/static/javascript/mapzen-styleguide.min.js https://mapzen.com/common/styleguide/scripts/mapzen-styleguide.min.js
 
 tangram:
 	curl -s -o www/static/javascript/tangram.js https://mapzen.com/tangram/tangram.debug.js

@@ -3,6 +3,26 @@
     @page {
 	size: portrait;
     }
+
+    body {
+	background: #fff; 
+	font-size: 12pt;
+    }
+
+    a { 
+	font-weight: 700; 
+    }
+
+    a:after { 
+	content: " ( " attr(href) " ) "; 
+	font-weight: 200; 
+	font-size: 10pt;
+	color: #666;
+    }
+
+    img { 
+	max-width:100% !important;
+    }
     
     #map {
 	display: none !important;
@@ -14,10 +34,8 @@
     
     #map-static {
 	display: block !important;
-    }
-
-    img { 
-	max-width:100% !important;
+	margin-top:1.5em;
+	margin-bottom:2em;
     }
 
 }
