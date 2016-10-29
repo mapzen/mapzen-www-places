@@ -8,6 +8,10 @@
     border: solid thin;
 }
 
+#map-static {
+    display: none !important;
+}
+
 .leaflet-tile-pane {
     display:none;	/* toggled in JS by map.on('tangramloaded', function(e){ ... } */
 }

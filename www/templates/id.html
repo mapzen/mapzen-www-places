@@ -26,6 +26,7 @@
 <h1>{{ place.properties.get('wof:name') | e}} <small>It's a {{ place.properties.get('wof:placetype') | e }}</small></h1>
 
 <div id="map"></div>
+<div id="map-static"></div>
 
 <script type="text/javascript">
 
@@ -54,6 +55,28 @@ map.on('tangramloaded', function(e){
 	controls.style.display = "inline";
 
 	slippymap.crosshairs.init(map);
+
+	var screenshot = map._tangram._layer.scene.screenshot()
+
+	screenshot.then(function(i){
+
+		// It would be nice to do this but it doesn't
+		// seem to work. Maybe I've just got the syntax
+		// wrong... (20161029/thisisaaronland)
+
+		// var m = document.getElementById("map");
+		// m.style.backgroundImage = i.url;
+
+		var img = document.createElement("img");
+		img.setAttribute("src", i.url);
+
+		var static = document.getElementById("map-static");
+		static.appendChild(img);
+	});
+
+	// Check for a signal in Tangram that tiles are loading?
+	// Check whether the map has moved?
+	// window.onbeforeprint()
 });
 
 </script>

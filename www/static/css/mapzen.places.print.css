@@ -1,0 +1,23 @@
+@media print {
+
+    @page {
+	size: portrait;
+    }
+    
+    #map {
+	display: none !important;
+    }
+
+    #slippymap-coords {
+	display: none !important;
+    }
+    
+    #map-static {
+	display: block !important;
+    }
+
+    img { 
+	max-width:100% !important;
+    }
+
+}
