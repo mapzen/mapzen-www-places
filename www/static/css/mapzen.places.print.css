@@ -14,10 +14,10 @@
     }
 
     a:after { 
-	content: " ( " attr(href) " ) "; 
+	content: " " attr(href) " "; 
 	font-weight: 200; 
 	font-size: 10pt;
-	color: #666;
+	color: #ccc;
     }
 
     img { 
@@ -28,6 +28,10 @@
 	display: none !important;
     }
 
+    #navi {
+	display: none !important;
+    }
+    
     #slippymap-coords {
 	display: none !important;
     }
@@ -38,4 +42,14 @@
 	margin-bottom:2em;
     }
 
+    #map-static-attribution {
+	margin-top:.4em;
+	font-size: 6pt;
+	text-align:right !important;
+	color: #666 !important;
+    }
+
+    #map-static-attribution a:after { 
+	font-size: 6pt;
+    }
 }

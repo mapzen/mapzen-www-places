@@ -34,3 +34,7 @@
 #slippymap-coords:before {
     content: "the map is centered at ";
 }
+
+#place-details {
+    margin-top:1.25em;
+}

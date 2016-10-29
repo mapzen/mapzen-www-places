@@ -23,14 +23,33 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="row" id="navi">
+    <div class="col-xs-12">
+      <ol class="breadcrumb">
+        <li>
+          <a href="https://www.mapzen.com">Mapzen</a>
+        </li>
+        <li>
+          <a href="{{ url_for('index') }}">Places</a>
+        </li>
+        <li class="active">{{ place.properties.get('wof:name') | e}}</li>
+      </ol>
+    </div>
+  </div>
+
 <h1>{{ place.properties.get('wof:name') | e}} <small>It's a {{ place.properties.get('wof:placetype') | e }}</small></h1>
 
 <div id="map"></div>
-<div id="map-static"></div>
 
-<div id="details">
+<div id="map-static">
+<div id="map-static-image"></div>
+<div id="map-static-attribution"><a href="https://mapzen.com/">Mapzen</a> - <a href="https://www.mapzen.com/rights">Attribution</a>, Data © <a href="https://openstreetmap.org/copyright">OSM</a> contributors</div>
+</div>
 
-<p>This place has a stable and permanent identifier. It is: <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}">{{ place.properties.get('wof:id') | e}}</a>.</p>
+<div id="place-details">
+
+<p>This place has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}">{{ place.properties.get('wof:id') | e}}</a>.</p>
 
 
 </div>
@@ -80,7 +99,7 @@ map.on('tangramloaded', function(e){
 		var img = document.createElement("img");
 		img.setAttribute("src", i.url);
 
-		var static = document.getElementById("map-static");
+		var static = document.getElementById("map-static-image");
 		static.appendChild(img);
 	});
 
