@@ -14,6 +14,8 @@ from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.datastructures import Headers
 # from flask.ext.cors import cross_origin
 
+import mapzen.whosonfirst.placetypes
+
 import time
 import random
 
@@ -398,17 +400,10 @@ def random_place():
 @app.route("/random/<placetype>/", methods=["GET"])
 def random_placetype(placetype):
 
-    # this doesn't work yet...
-    # https://github.com/mapzen/mapzen-www-places/issues/11
-
-    # flask.abort(404)
-
     placetype = sanitize_str(placetype)
 
-    """
-    if not pt.is_valid_placetype(placetype) and placetype != 'airport':
+    if not mapzen.whosonfirst.placetypes.is_valid_placetype(placetype) and placetype != 'airport':
         flask.abort(404)
-    """
 
     es_query = {
         'term': {
