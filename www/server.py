@@ -123,6 +123,70 @@ class ES:
 
         return pagination
 
+# THINGS THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
+# https://github.com/mapzen/mapzen-www-places/issues/4
+
+def get_param(k, sanitize=None):
+
+    param = flask.request.args.getlist(k)
+    
+    if len(param) == 0:
+        return None
+        
+    if sanitize:
+        param = map(sanitize, param)
+
+    return param
+
+def get_single(v):
+
+    if v and type(v) == types.ListType:
+        v = v[0]
+
+    return v
+
+def get_str(k):
+
+    param = get_param(k, sanitize_str)
+    return param
+
+def get_int(k):
+
+    param = get_param(k, sanitize_int)
+    return param
+
+def get_float(k):
+
+    param = get_param(k, sanitize_float)
+    return param
+
+def sanitize_str(str):
+
+    if str:
+        str = codecs.encode(str, 'utf-8')
+        str = str.strip()
+
+    return str
+    
+def sanitize_int(i):
+
+    if i:
+        i = int(i)
+
+    return i
+
+def sanitize_float(f):
+
+    if f:
+        f = float(f)
+
+    return f
+
+# end of THINGS THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
+
+# SOMETHING THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
+# https://github.com/mapzen/mapzen-www-places/issues/4
+
 class ReverseProxied(object):
     '''Wrap the application in this middleware and configure the 
     front-end server to add these headers, to let you quietly bind 
@@ -156,6 +220,8 @@ class ReverseProxied(object):
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
 
+# end of SOMETHING THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
+
 app = flask.Flask('MAPZEN_PLACES')
 app.wsgi_app = ProxyFix(app.wsgi_app)
 app.wsgi_app = ReverseProxied(app.wsgi_app)
@@ -174,15 +240,18 @@ def init():
     
     pass
 
+# THINGS THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
+# https://github.com/mapzen/mapzen-www-places/issues/4
+
 @app.template_filter()
 def urlencode(value):
     s = unicode(value)
     return urllib.quote(s)
 
-# http://flask.pocoo.org/snippets/29/
-
 @app.template_filter()
 def number_format(value, tsep=',', dsep='.'):
+
+    # http://flask.pocoo.org/snippets/29/
 
     s = unicode(value)
 
@@ -215,6 +284,8 @@ def number_format(value, tsep=',', dsep='.'):
         s = s[:-3]
 
     return lhs + splt[:-1] + rhs
+
+# end of THINGS THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -330,16 +401,16 @@ def random_placetype(placetype):
     # this doesn't work yet...
     # https://github.com/mapzen/mapzen-www-places/issues/11
 
-    flask.abort(404)
+    # flask.abort(404)
 
-    """
     placetype = sanitize_str(placetype)
 
+    """
     if not pt.is_valid_placetype(placetype) and placetype != 'airport':
         flask.abort(404)
     """
 
-    query = {
+    es_query = {
         'term': {
             'wof:placetype': placetype
         }
@@ -347,7 +418,7 @@ def random_placetype(placetype):
 
     if placetype == 'airport':
 
-        query = {'filtered': {
+        es_query = {'filtered': {
             'filter': { 'term': { 'wof:category': 'airport' } },
             'query': { 'term': { 'wof:placetype': 'campus' } }
         }}
@@ -359,9 +430,11 @@ def random_placetype(placetype):
 
     es_query = {
         'function_score': {
-            'query': query,
+            'query': es_query,
             'functions': [
-                { 'random_score': { 'seed': seed } }
+                {
+                    'random_score': { 'seed': seed },
+                }
             ]
         }
     }
@@ -370,7 +443,12 @@ def random_placetype(placetype):
         'query': es_query,
     }
 
-    rsp = flask.g.es.query(body=body, query=query)
+    params = {
+        'per_page': 1
+    }
+
+    rsp = flask.g.es.query(body=body, query=params)
+
     doc = flask.g.es.single(rsp)
 
     if not doc:
