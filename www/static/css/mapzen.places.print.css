@@ -7,10 +7,20 @@
     body {
 	background: #fff; 
 	font-size: 12pt;
+	margin-top: 0px !important;
     }
 
     a { 
 	font-weight: 700; 
+    }
+
+    h1 {
+	font-size: 24pt;
+	font-weight: 700;
+    }
+
+    footer {
+	display: none !important;
     }
 
     a:after { 

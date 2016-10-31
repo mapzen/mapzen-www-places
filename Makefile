@@ -6,7 +6,11 @@ setup-local:
 	ubuntu/setup-gunicorn.sh
 	ubuntu/setup-nginx.sh
 
-mapzen: styleguide tangram refill yesnofix logo mapzenjs crosshairs
+mapzen: styleguide tangram refill yesnofix logo mapzenjs crosshairs fragments
+
+fragments: 
+	curl -s -o www/templates/inc_mapzen_navbar.html https://mapzen.com/site-fragments/navbar.html
+	curl -s -o www/templates/inc_mapzen_footer.html https://mapzen.com/site-fragments/footer.html
 
 logo:
 	curl -s -o www/static/images/mapzen-logo-square-bw-lit.png https://mapzen.com/resources/logos/mapzen-logo-square-bw-lit.png

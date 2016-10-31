@@ -27,9 +27,11 @@
 <div class="row" id="navi">
     <div class="col-xs-12">
       <ol class="breadcrumb">
+	{% if 0 %}
         <li>
           <a href="https://www.mapzen.com">Mapzen</a>
         </li>
+	{% endif %}
         <li>
           <a href="{{ url_for('index') }}">Places</a>
         </li>
@@ -72,6 +74,8 @@ map.fitBounds(bounds)
 
 map.on('tangramloaded', function(e){
 
+	var tangram = e.tangramLayer;
+
 	var els = document.getElementsByClassName("leaflet-tile-pane");
 	var tiles = els[0];
 	tiles.style.display = "inline";
@@ -85,7 +89,8 @@ map.on('tangramloaded', function(e){
 	// See the private variables? See also:
 	// https://github.com/mapzen/mapzen.js/issues/284
 
-	var screenshot = map._tangram._layer.scene.screenshot()
+	//var screenshot = map._tangram._layer.scene.screenshot();
+	var screenshot = tangram.scene.screenshot();
 
 	screenshot.then(function(i){
 
