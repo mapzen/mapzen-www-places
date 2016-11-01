@@ -1,0 +1,11 @@
+machine:
+  python:
+    version: 2.7.12
+
+test:
+  pre:
+    - pip install requests flask
+    - pip install https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master
+    - make mapzen
+  override:
+    - python -c "import sys; sys.path.append('www'); import server"
