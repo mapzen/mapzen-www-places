@@ -71,6 +71,7 @@
 
 {% else %}
 
+{# see also: https://github.com/mapzen/mapzen-www-places/issues/21 #}
 <div class="place-detail">{{ place.properties.get('wof:name') | e}} is part of a few <span class="hey-look">different</span> places:<br /><br />
 {% include "inc_place_hierarchy_multi.html" %}
 </div>
