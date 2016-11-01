@@ -26,6 +26,8 @@
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.log.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.uri.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.namify.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.footnotes.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -52,12 +54,12 @@
 
 <div id="map-static">
 <div id="map-static-image"></div>
-<div id="map-static-attribution"><a href="https://mapzen.com/">Mapzen</a> - <a href="https://www.mapzen.com/rights">Attribution</a>, Data © <a href="https://openstreetmap.org/copyright">OSM</a> contributors</div>
+<div id="map-static-attribution"><a href="https://mapzen.com/" class="wof-footnote">Mapzen</a> - <a href="https://www.mapzen.com/rights" class="wof-footnote">Attribution</a>, Data © <a href="https://openstreetmap.org/copyright" class="wof-footnote">OSM</a> contributors</div>
 </div>
 
 <div id="place-details">
 
-<div class="place-detail">This <span class="hey-look" title="{{ place.properties.get('wof:name') | e}}">place</span> has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}" class="hey-look">{{ place.properties.get('wof:id') | e}}</a>.</div>
+<div class="place-detail">This <span class="hey-look" title="{{ place.properties.get('wof:name') | e}}">place</span> has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}" class="hey-look wof-footnote">{{ place.properties.get('wof:id') | e}}</a>.</div>
 
 {% if place.properties.get('wof:hierarchy_count') == 0 %}
 
@@ -83,6 +85,7 @@
 <script type="text/javascript">
 
 mapzen.whosonfirst.namify.namify_wof();
+mapzen.whosonfirst.footnotes.add_footnotes('content', 'content', { 'class': 'wof-footnote'});
 
 var map = L.Mapzen.map('map', {
           center: [ {{ place.properties.get('geom:latitude') | e }}, {{ place.properties.get('geom:longitude') | e }}],
@@ -133,54 +136,6 @@ map.on('tangramloaded', function(e){
 	// Check whether the map has moved?
 	// window.onbeforeprint()
 });
-
-/* please put me in a library or something... (20161101/thisisaaronland) */
-
-var seen = {};
-var lookup = {};
-var idx = 0;
-
-var content = document.getElementById("content");
-var links = content.getElementsByTagName("a");
-var count = links.length;
-
-for (var i=0; i < count; i++){
-
-	var el = links[i];
-	var href = el.getAttribute("href");
-
-	if (! seen[href]){
-		idx += 1;
-		seen[href] = idx;
-	}		 
-
-	if (! lookup[href]){
-		lookup[href] = [];
-	}		  
-
-	lookup[href].push(el);
-}
-
-var footnotes = document.createElement("ol");
-footnotes.setAttribute("id", "footnotes");
-
-for (var href in seen){
-
-	var idx = seen[href];
-	var fn = idx - 1;
-
-	for (var j in lookup[href]){
-		var el = lookup[href][j];
-		el.setAttribute("data-footnote-id", fn);
-	}		  
-
-	var li = document.createElement("li");
-	li.appendChild(document.createTextNode(href));
-
-	footnotes.appendChild(li);
-}
-
-content.appendChild(footnotes);
 
 </script>
 

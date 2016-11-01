@@ -2,12 +2,16 @@ h1 {
     margin-bottom:.5em;
 }
 
+sup {
+    display: none;
+}
+
 #content {
     margin-bottom:60%;
 }
 
 #footnotes {
-    display:none;
+    display: none;
 }
 
 #map {

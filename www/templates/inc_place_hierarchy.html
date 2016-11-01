@@ -7,9 +7,9 @@
 an <span class="hey-look" title="that's our bad - we really should know this...">unknown</span> {{ pair.placetype | e }}
 {% else %}
 {% if pair.placetype == "county" %}
-<a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a> county
+<a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify wof-footnote" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a> county
 {% else %}
-the {{ pair.placetype | e }} of <a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a>
+the {{ pair.placetype | e }} of <a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify wof-footnote" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a>
 {% endif %}
 
 {% endif %}
