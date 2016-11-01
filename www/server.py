@@ -355,8 +355,8 @@ def place_id(id):
     if not doc:
         flask.abort(400)
 
-    place  = doc_to_geojson(doc)
-    inflate_properties(place)
+    place = doc_to_geojson(doc)
+    place = inflate_properties(place)
 
     return flask.render_template('id.html', place=place)
 
@@ -499,3 +499,8 @@ def inflate_properties(place):
     place['properties']['wof:hierarchy_sorted'] = sorted
     place['properties']['wof:hierarchy_count'] = len(sorted)
 
+    # not sure this is the cause but just in case...
+    # https://github.com/mapzen/mapzen-www-places/issues/22
+
+    return place
+    
