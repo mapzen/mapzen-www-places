@@ -20,6 +20,12 @@
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/slippymaps.crosshairs.js') }}"></script>
 
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/localforage.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.php.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.net.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.log.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.uri.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/mapzen.whosonfirst.namify.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -51,12 +57,35 @@
 
 <div id="place-details">
 
-<p>This place has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}">{{ place.properties.get('wof:id') | e}}</a>.</p>
+<div class="place-detail">This <span class="hey-look" title="{{ place.properties.get('wof:name') | e}}">place</span> has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}" class="hey-look">{{ place.properties.get('wof:id') | e}}</a>.</div>
 
+<div class="place-detail"> It is part of &#160;
+
+{% for hier in place.properties.get('wof:hierarchy_sorted') %}
+<ul class="list-inline place-details-hierarchy">
+{% for pair in hier %}
+<li>
+
+{% if pair.id == -1 %}
+an <span class="hey-look" title="that's our bad - we really should know this...">unknown</span> {{ pair.placetype | e }}
+{% else %}
+the {{ pair.placetype | e }} of <a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a>
+{% endif %}
+
+{% if not loop.last %} and {% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endfor %}
+.
+
+</div>
 
 </div>
 
 <script type="text/javascript">
+
+mapzen.whosonfirst.namify.namify_wof();
 
 var map = L.Mapzen.map('map', {
           center: [ {{ place.properties.get('geom:latitude') | e }}, {{ place.properties.get('geom:longitude') | e }}],

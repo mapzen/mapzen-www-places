@@ -355,7 +355,8 @@ def place_id(id):
     if not doc:
         flask.abort(400)
 
-    place = doc2geojson(doc)
+    place  = doc_to_geojson(doc)
+    inflate_properties(place)
 
     return flask.render_template('id.html', place=place)
 
@@ -452,10 +453,44 @@ def random_placetype(placetype):
     location = flask.url_for('place_id', id=doc['_id'])
     return flask.redirect(location, code=303)
 
-def doc2geojson(doc):
+def doc_to_geojson(doc):
 
     return {
         'type': 'Feature',
         'properties': doc['_source'],
         'geoemtry': {}		# see that... we'll figure it out (20161027/thisisaaronland)
     }
+
+def inflate_properties(place):
+
+    pt = place['properties']['wof:placetype']
+    pt = mapzen.whosonfirst.placetypes.placetype(pt)
+
+    roles = ['common', 'common_optional', 'optional']
+
+    common_ancestors = mapzen.whosonfirst.placetypes.common()
+    all_ancestors = pt.ancestors(roles)
+
+    unsorted = place['properties']['wof:hierarchy']
+    sorted = []
+    
+    for h in unsorted:
+
+        hier = []
+
+        for a in all_ancestors:
+    
+            k = "%s_id" % a
+            v = h.get(k, None)
+
+            if v != None:
+                hier.append({'placetype': a, 'id': v})
+            elif a in common_ancestors:
+                hier.append({'placetype': a, 'id': -1})
+            else:
+                continue
+
+        sorted.append(hier)
+
+    place['properties']['wof:hierarchy_sorted'] = sorted
+
