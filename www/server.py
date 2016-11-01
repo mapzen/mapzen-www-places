@@ -471,6 +471,8 @@ def inflate_properties(place):
     common_ancestors = mapzen.whosonfirst.placetypes.common()
     all_ancestors = pt.ancestors(roles)
 
+    # print all_ancestors
+
     unsorted = place['properties']['wof:hierarchy']
     sorted = []
     
@@ -492,5 +494,8 @@ def inflate_properties(place):
 
         sorted.append(hier)
 
+    # print sorted
+
     place['properties']['wof:hierarchy_sorted'] = sorted
+    place['properties']['wof:hierarchy_count'] = len(sorted)
 

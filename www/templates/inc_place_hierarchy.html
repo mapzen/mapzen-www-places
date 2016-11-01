@@ -1,0 +1,21 @@
+<ul class="list-inline place-details-hierarchy">
+{% for pair in hier %}
+
+<li>
+
+{% if pair.id == -1 %}
+an <span class="hey-look" title="that's our bad - we really should know this...">unknown</span> {{ pair.placetype | e }}
+{% else %}
+{% if pair.placetype == "county" %}
+<a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a> county
+{% else %}
+the {{ pair.placetype | e }} of <a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a>
+{% endif %}
+
+{% endif %}
+
+{% if not loop.last %} and {% endif %}
+</li>
+
+{% endfor %}
+</ul>.

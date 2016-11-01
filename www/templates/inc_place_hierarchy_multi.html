@@ -1,0 +1,16 @@
+<ul class="list place-details-hierarchy-multi">
+{% for hier in place.properties.get('wof:hierarchy_sorted') %}
+
+{# I don't know why I need to do this inline; when I try to set this in mapzen.places.css it is applied to each line of text (20161031/thisisaaronland #}
+<li style="margin-bottom:1.25em;"> 
+{% if loop.first %}
+It is part of&#160;{% include "inc_place_hierarchy.html" %}
+{% elif loop.last %}
+And last, but not least, it is part of&#160;{% include "inc_place_hierarchy.html" %}
+{% else %}
+It is also part &#160; {% include "inc_place_hierarchy.html" %}
+{% endif %}
+</li>
+
+{% endfor %}
+</ul>.

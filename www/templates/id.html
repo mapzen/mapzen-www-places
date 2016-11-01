@@ -59,27 +59,23 @@
 
 <div class="place-detail">This <span class="hey-look" title="{{ place.properties.get('wof:name') | e}}">place</span> has a stable and permanent identifier. It is <a href="{{ url_for('place_id', id=place.properties.get('wof:id'), _external=True) }}" class="hey-look">{{ place.properties.get('wof:id') | e}}</a>.</div>
 
+{% if place.properties.get('wof:hierarchy_count') == 0 %}
+
+{% elif place.properties.get('wof:hierarchy_count') == 1 %}
+
 <div class="place-detail"> It is part of &#160;
-
 {% for hier in place.properties.get('wof:hierarchy_sorted') %}
-<ul class="list-inline place-details-hierarchy">
-{% for pair in hier %}
-<li>
-
-{% if pair.id == -1 %}
-an <span class="hey-look" title="that's our bad - we really should know this...">unknown</span> {{ pair.placetype | e }}
-{% else %}
-the {{ pair.placetype | e }} of <a href="{{ url_for('place_id', id=pair.id, _external=True) }}" class="wof-namify" data-wof-id="{{ pair.id | e }}">{{ pair.id | e }}</a>
-{% endif %}
-
-{% if not loop.last %} and {% endif %}
-</li>
+{% include "inc_place_hierarchy.html" %}
 {% endfor %}
-</ul>
-{% endfor %}
-.
-
 </div>
+
+{% else %}
+
+<div class="place-detail">{{ place.properties.get('wof:name') | e}} is part of a few <span class="hey-look">different</span> places:<br /><br />
+{% include "inc_place_hierarchy_multi.html" %}
+</div>
+
+{% endif %}
 
 </div>
 
@@ -103,8 +99,6 @@ map.fitBounds(bounds)
 
 map.on('tangramloaded', function(e){
 
-	var tangram = e.tangramLayer;
-
 	var els = document.getElementsByClassName("leaflet-tile-pane");
 	var tiles = els[0];
 	tiles.style.display = "inline";
@@ -115,10 +109,7 @@ map.on('tangramloaded', function(e){
 
 	slippymap.crosshairs.init(map);
 
-	// See the private variables? See also:
-	// https://github.com/mapzen/mapzen.js/issues/284
-
-	//var screenshot = map._tangram._layer.scene.screenshot();
+	var tangram = e.tangramLayer;
 	var screenshot = tangram.scene.screenshot();
 
 	screenshot.then(function(i){
