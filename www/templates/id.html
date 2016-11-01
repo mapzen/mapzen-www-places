@@ -85,7 +85,10 @@
 <script type="text/javascript">
 
 mapzen.whosonfirst.namify.namify_wof();
-mapzen.whosonfirst.footnotes.add_footnotes('content', 'content', { 'class': 'wof-footnote'});
+
+var source_el = document.getElementById("content");
+var target_el = document.getElementById("content");
+mapzen.whosonfirst.footnotes.add_footnotes(source_el, target_el, {'class': 'wof-footnote'});
 
 var map = L.Mapzen.map('map', {
           center: [ {{ place.properties.get('geom:latitude') | e }}, {{ place.properties.get('geom:longitude') | e }}],

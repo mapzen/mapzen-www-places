@@ -9,7 +9,7 @@ mapzen.whosonfirst.footnotes = (function() {
 
 	},
 
-	'add_footnotes': function(src, target, args){
+	'add_footnotes': function(source_el, target_el, args){
 
 	    if (! args){
 		args = {};
@@ -30,10 +30,7 @@ mapzen.whosonfirst.footnotes = (function() {
 	    var lookup = {};
 	    var idx = 0;
 	    
-	    var source = document.getElementById(src);
-	    var target = document.getElementById(target);
-
-	    var links = source.getElementsByTagName("a");
+	    var links = source_el.getElementsByTagName("a");
 	    var count = links.length;
 	    
 	    for (var i=0; i < count; i++){
@@ -108,7 +105,7 @@ mapzen.whosonfirst.footnotes = (function() {
 		footnotes.appendChild(li);
 	    }
 	    
-	    target.appendChild(footnotes);
+	    target_el.appendChild(footnotes);
 	}
 
     };

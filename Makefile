@@ -6,7 +6,7 @@ setup-local:
 	ubuntu/setup-gunicorn.sh
 	ubuntu/setup-nginx.sh
 
-mapzen: styleguide tangram refill yesnofix logo mapzenjs crosshairs fragments
+mapzen: styleguide yesnofix logo mapzenjs crosshairs fragments whosonfirstjs
 
 fragments: 
 	curl -s -o www/templates/inc_mapzen_navbar.html https://mapzen.com/site-fragments/navbar.html
@@ -40,6 +40,7 @@ crosshairs:
 
 whosonfirstjs: localforage
 	curl -s -o www/static/javascript/mapzen.whosonfirst.namify.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.namify.js
+	curl -s -o www/static/javascript/mapzen.whosonfirst.footnotes.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.footnotes.js
 	curl -s -o www/static/javascript/mapzen.whosonfirst.uri.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.uri.js
 	curl -s -o www/static/javascript/mapzen.whosonfirst.log.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.log.js
 	curl -s -o www/static/javascript/mapzen.whosonfirst.net.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst/master/src/mapzen.whosonfirst.net.js
