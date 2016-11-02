@@ -1,0 +1,14 @@
+machine:
+  python:
+    version: 2.7.12
+
+dependencies:
+  override:
+    - pip install 'requests == 2.2.1' 'flask == 0.10.1'
+    - pip install https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master
+    - make mapzen
+
+test:
+  override:
+    - python test-artifacts.py $CIRCLE_ARTIFACTS
+    - cp -Lr www/static $CIRCLE_ARTIFACTS/

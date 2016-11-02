@@ -224,7 +224,7 @@ class ReverseProxied(object):
 
 # end of SOMETHING THAT SHOULD PROBABLY BE MOVED IN TO A SHARED LIBRARY
 
-app = flask.Flask('MAPZEN_PLACES')
+app = flask.Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 app.wsgi_app = ReverseProxied(app.wsgi_app)
 
