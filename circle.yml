@@ -8,4 +8,4 @@ test:
     - pip install https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master
     - make mapzen
   override:
-    - python test-artifacts.py
+    - python test-artifacts.py $CIRCLE_ARTIFACTS

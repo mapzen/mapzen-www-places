@@ -1,4 +1,4 @@
-import os, sys, unittest
+import os, sys, shutil
 from operator import itemgetter
 
 # Mess with the path so that server imports
@@ -6,16 +6,21 @@ www_dir = os.path.join(os.path.dirname(__file__), 'www')
 sys.path.append(www_dir)
 import server
 
-class AppTest (unittest.TestCase):
+(dirname, ) = sys.argv[1:]
+client = server.app.test_client()
 
-    def test_links(self):
-        ''' Check that basic paths come up HTTP 200 OK
-        '''
-        client = server.app.test_client()
-        paths = ('/', '/static/css/mapzen.styleguide.css',
-                 '/static/javascript/mapzen.places.js',
-                 '/static/images/max-headroom.gif')
+paths = [('/', 'index.html')]
 
-        for path in paths:
-            got = client.get(path)
-            self.assertEqual(got.status_code, 200)
+for (path, name) in paths:
+    got = client.get(path)
+    filepath = os.path.join(dirname, name)
+    dirpath = os.path.dirname(filepath)
+    
+    if got.status_code != 200:
+        raise Exception('Failed to get {}'.format(path))
+
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+    
+    with open(filepath, 'w') as file:
+        file.write(got.data)
