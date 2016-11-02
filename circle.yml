@@ -4,8 +4,8 @@ machine:
 
 test:
   pre:
-    - pip install requests flask
+    - pip install 'requests == 2.2.1' 'flask == 0.10.1'
     - pip install https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master
     - make mapzen
   override:
-    - python -c "import sys; sys.path.append('www'); import server"
+    - python test-artifacts.py
