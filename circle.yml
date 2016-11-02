@@ -9,3 +9,4 @@ test:
     - make mapzen
   override:
     - python test-artifacts.py $CIRCLE_ARTIFACTS
+    - cp -Lr www/static $CIRCLE_ARTIFACTS/
