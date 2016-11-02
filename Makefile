@@ -49,3 +49,8 @@ whosonfirstjs: localforage
 localforage:
 	curl -s -o www/static/javascript/localforage.js https://raw.githubusercontent.com/mozilla/localForage/master/dist/localforage.js
 	curl -s -o www/static/javascript/localforage.min.js https://raw.githubusercontent.com/mozilla/localForage/master/dist/localforage.min.js
+
+whosonfirstdata:
+	curl -s -o www/static/whosonfirst/102527513.geojson https://whosonfirst.mapzen.com/data/102/527/513/102527513.geojson
+	curl -s -o www/static/whosonfirst/102061079.geojson https://whosonfirst.mapzen.com/data/102/061/079/102061079.geojson
+	curl -s -o www/static/whosonfirst/102031307.geojson https://whosonfirst.mapzen.com/data/102/031/307/102031307.geojson
