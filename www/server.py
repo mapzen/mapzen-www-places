@@ -2,6 +2,7 @@
 
 import sys
 import os
+import os.path
 import logging
 import urlparse
 import urllib
@@ -334,6 +335,40 @@ def index():
 def null_id():
     location = flask.url_for('index')
     return flask.redirect(location, code=303)
+
+@app.route("/debug", methods=["GET"])
+@app.route("/debug/", methods=["GET"])
+def debug_index():
+    return flask.render_template('debug.html')
+
+@app.route("/debug/<int:id>", methods=["GET"])
+@app.route("/debug/<int:id>/", methods=["GET"])
+def debug_id(id):
+
+    id = int(id)	# just because you're paranoid don't mean they're not after you...
+
+    root = os.path.dirname(__file__)
+    root = os.path.abspath(root)
+    root = os.path.join(root, 'static')
+    root = os.path.join(root, 'whosonfirst')
+
+    fname = '%s.geojson' % id
+
+    path = os.path.join(root, fname)
+
+    if not os.path.exists(path):
+        flask.abort(404)
+
+    try:
+        fh = open(path, 'r')
+        feature = json.load(fh)
+    except Exception, e:
+        logging.error("failed to load %s, because %s" % (path, e))
+        flask.abort(500)
+
+    place = inflate_properties(feature)
+    
+    return flask.render_template('id.html', place=place)
 
 @app.route("/id/<int:id>", methods=["GET"])
 @app.route("/id/<int:id>/", methods=["GET"])

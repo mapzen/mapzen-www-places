@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Mapzen Places - Debug{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+<div style="margin-top:2em;">
+<ul class="list">
+	<li><a href="{{ url_for('debug_id', id=102527513) }}">SFO</a> <small>102527513</small></li>
+	<li><a href="{{ url_for('debug_id', id=102061079) }}">Gowanus Heights</a> <small>102061079</small></li>
+	<li><a href="{{ url_for('debug_id', id=102031307) }}">Tokyo</a> <small>102031307</small></li>
+</ul>
+</div>
+
+{% endblock %}

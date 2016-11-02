@@ -1,0 +1,85 @@
+{
+  "id": 102527513,
+  "type": "Feature",
+  "properties": {
+    "edtf:cessation":"uuuu",
+    "edtf:inception":"1927-05-07",
+    "geom:area":0.001788,
+    "geom:bbox":"-122.421204,37.585941,-122.341377,37.652073",
+    "geom:latitude":37.613858,
+    "geom:longitude":-122.37366,
+    "gn:elevation":5,
+    "iso:country":"US",
+    "lbl:latitude":37.61799,
+    "lbl:longitude":-122.370943,
+    "mps:latitude":37.61799,
+    "mps:longitude":-122.370943,
+    "mz:hierarchy_label":1,
+    "name:eng_x_preferred":[
+        "San Francisco International Airport"
+    ],
+    "name:eng_x_variant":[
+        "SFO",
+        "KSFO"
+    ],
+    "oa:elevation_ft":"13",
+    "oa:type":"large_airport",
+    "src:geom":"woedb",
+    "src:geom_alt":[],
+    "src:lbl:centroid":"mapshaper",
+    "wk:wordcount":8627,
+    "woe:hierarchy":{
+        "country_id":23424977,
+        "county_id":12587710,
+        "planet_id":1,
+        "state_id":2347563
+    },
+    "wof:belongsto":[
+        85688637,
+        85633793,
+        85886431,
+        102085387
+    ],
+    "wof:breaches":[],
+    "wof:category":"airport",
+    "wof:concordances":{
+        "faa:code":"SFO",
+        "gn:id":5391989,
+        "gp:id":12521721,
+        "iata:code":"SFO",
+        "icao:code":"KSFO",
+        "oa:id":"3878",
+        "wd:id":"Q8688",
+        "wk:page":"San_Francisco_International_Airport"
+    },
+    "wof:country":"US",
+    "wof:geomhash":"213d02706facfe1d0c713e2ed23080f5",
+    "wof:hierarchy":[
+        {
+            "campus_id":102527513,
+            "country_id":85633793,
+            "county_id":102085387,
+            "neighbourhood_id":85886431,
+            "region_id":85688637
+        }
+    ],
+    "wof:id":102527513,
+    "wof:lastmodified":1469805886,
+    "wof:name":"San Francisco International Airport",
+    "wof:parent_id":85886431,
+    "wof:placetype":"campus",
+    "wof:repo":"whosonfirst-data",
+    "wof:superseded_by":[],
+    "wof:supersedes":[],
+    "wof:tags":[
+        "airport"
+    ]
+},
+  "bbox": [
+    -122.421204,
+    37.585941,
+    -122.341377,
+    37.652073
+],
+  "geometry": {"coordinates":[[[[-122.420357,37.651333],[-122.42047100000001,37.652073],[-122.421204,37.651173],[-122.42038700000001,37.651276],[-122.405418,37.634312],[-122.400352,37.634029],[-122.39450100000001,37.632862],[-122.388313,37.633675],[-122.37602200000001,37.631088],[-122.362549,37.638908],[-122.360283,37.634068],[-122.35611,37.614025],[-122.353706,37.612396],[-122.351601,37.61134],[-122.349411,37.610287],[-122.345123,37.607704],[-122.34137699999999,37.590256],[-122.359131,37.585941],[-122.36784400000001,37.600216],[-122.37653400000001,37.605061],[-122.380539,37.607029],[-122.383797,37.607666],[-122.395447,37.60276],[-122.401848,37.605137],[-122.404831,37.611164],[-122.405632,37.613293],[-122.40589900000001,37.614941],[-122.40582999999999,37.615002],[-122.40129899999999,37.625465],[-122.405418,37.634312],[-122.420357,37.651333]]]],"type":"MultiPolygon"}
+}
