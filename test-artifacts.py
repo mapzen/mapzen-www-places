@@ -9,7 +9,14 @@ import server
 (dirname, ) = sys.argv[1:]
 client = server.app.test_client()
 
-paths = [('/', 'index.html')]
+paths = [
+    ('/', 'index.html'),
+    ('/debug/', 'debug/index.html'),
+    ('/debug/102031307/', 'debug/102031307/index.html'),
+    ('/debug/102061079/', 'debug/102061079/index.html'),
+    ('/debug/102527513/', 'debug/102527513/index.html'),
+    ('/debug/85921881/', 'debug/85921881/index.html'),
+    ]
 
 for (path, name) in paths:
     got = client.get(path)
