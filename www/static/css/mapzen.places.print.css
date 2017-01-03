@@ -78,4 +78,8 @@
 	font-size: auto !important;
 	line-height: auto !important;
     }
+
+    .places-host {
+	display:none !important;
+    }
 }
