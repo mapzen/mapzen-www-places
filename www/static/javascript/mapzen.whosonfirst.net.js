@@ -16,37 +16,58 @@ mapzen.whosonfirst.net = (function(){
 				v = encodeURIComponent(v);
 				enc.push(k + "=" + v);
 			}
-			
+
 			return enc.join("&");
 		},
 
-		'fetch': function(url, on_success, on_fail, cache_ttl){
+		'fetch': function(url, on_success, on_fail, args){
 
-			if (! cache_ttl){
-				cache_ttl = default_cache_ttl;
+			if (typeof(args) == "undefined") {
+				args = {};
 			}
 
-			mapzen.whosonfirst.log.debug("fetch " + url);
+			// this is here for backwards compatibility
+			// (20170113/thisisaaronland)
+
+			else if (typeof(args) == "number") {
+				args = { "cache_ttl": args };
+			}
+
+			else {}
+
+			if (args["cache_ttl"]){
+				var cache_ttl = args["cache_ttl"];
+			}
+
+			else {
+				var cache_ttl = default_cache_ttl;
+			}
 
 			var on_hit = function(data){
+				mapzen.whosonfirst.log.debug("[cached] fetch " + url);
 				if (on_success){
 					on_success(data);
 				}
 			};
 
 			var on_miss = function(){
-				self.fetch_with_xhr(url, on_success, on_fail);
+				mapzen.whosonfirst.log.debug("[xhr] fetch " + url);
+				self.fetch_with_xhr(url, on_success, on_fail, args);
 			};
 
 			if (! self.cache_get(url, on_hit, on_miss, cache_ttl)){
-				self.fetch_with_xhr(url, on_success, on_fail);
+				self.fetch_with_xhr(url, on_success, on_fail, args);
 			}
 		},
 
-		'fetch_with_xhr': function(url, on_success, on_fail){
+		'fetch_with_xhr': function(url, on_success, on_fail, args){
+
+			if (! args){
+				args = {};
+			}
 
 			var req = new XMLHttpRequest();
-			
+
 			req.onload = function(){
 
 				try {
@@ -71,13 +92,36 @@ mapzen.whosonfirst.net = (function(){
 			};
 
 			try {
+
+				if (args["cache-busting"]){
+
+					var cb = Math.floor(Math.random() * 1000000);
+
+					var tmp = document.createElement("a");
+					tmp.href = url;
+
+					if (tmp.search){
+						tmp.search += "&cb=" + cb;
+					}
+
+					else {
+						tmp.search = "?cb= " + cb;
+					}
+
+					url = tmp.href;
+				}
+
+				// console.log("ARGS " + args);
+				// console.log("URL " + url);
+
 				req.open("get", url, true);
 				req.send();
 			}
 
 			catch(e){
+
 				mapzen.whosonfirst.log.error("failed to fetch " + url + ", because ");
-				mapzen.whosonfirst.log.debug(e);   
+				mapzen.whosonfirst.log.debug(e);
 
 				if (on_fail){
 					on_fail();

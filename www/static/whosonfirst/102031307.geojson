@@ -5,6 +5,7 @@
     "edtf:cessation":"uuuu",
     "edtf:inception":"uuuu",
     "geom:area":0.044797,
+    "geom:area_square_m":449799908.137315,
     "geom:bbox":"139.279417452,35.5330801096,140.147167867,35.813461192",
     "geom:latitude":35.706104,
     "geom:longitude":139.721352,
@@ -15,6 +16,7 @@
     "mps:latitude":35.695126,
     "mps:longitude":139.75391,
     "mz:hierarchy_label":1,
+    "mz:is_current":-1,
     "name:chi_x_preferred":[
         "\u6771\u4eac"
     ],
@@ -113,9 +115,10 @@
     "src:geom_alt":[],
     "src:lbl:centroid":"mapshaper",
     "wof:belongsto":[
-        "102191569",
-        "85632429",
-        85672817
+        102191569,
+        85632429,
+        85672817,
+        1108741679
     ],
     "wof:breaches":[],
     "wof:concordances":{
@@ -129,11 +132,12 @@
         "qs:id":301367
     },
     "wof:country":"JP",
-    "wof:geomhash":"36e02ce7ef3ee334ddc8029f66a0dc40",
+    "wof:geomhash":"b47a1b572ee6ddcef7f42afea505b14a",
     "wof:hierarchy":[
         {
-            "continent_id":"102191569",
-            "country_id":"85632429",
+            "continent_id":102191569,
+            "country_id":85632429,
+            "county_id":1108741679,
             "locality_id":102031307,
             "region_id":85672817
         }
@@ -142,10 +146,10 @@
     "wof:lang":[
         "jpn"
     ],
-    "wof:lastmodified":1466627355,
+    "wof:lastmodified":1499468259,
     "wof:megacity":"1",
     "wof:name":"Tokyo",
-    "wof:parent_id":85672817,
+    "wof:parent_id":1108741679,
     "wof:placetype":"locality",
     "wof:repo":"whosonfirst-data",
     "wof:scale":"1",
